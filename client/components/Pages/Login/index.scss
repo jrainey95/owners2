@@ -1,0 +1,47 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #e0d7d7;
+}
+
+.login-box {
+  background-color: #8f8c8c;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  text-align: center;
+  width: 300px;
+}
+
+.login-box h2 {
+  color: #333;
+  margin: 0 0 20px;
+}
+
+.login-box Form {
+  text-align: left;
+}
+
+.login-box Form Button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.login-box Form Button:disabled {
+  background-color: #000000;
+  cursor: not-allowed;
+}
+
+.login-box Form .form-group {
+  margin-bottom: 15px;
+}
+
+.login-box Form .alert {
+  margin-top: 20px;
+  border-radius: 5px;
+}

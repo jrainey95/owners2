@@ -2,12 +2,16 @@ h1 {
   padding: 25px;
   display: block;
   justify-content: flex-start;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 h1.dolphin-tracker {
   color: #ffffff;
   background-color: #0037b2;;
+}
+
+div.navbar-container {
+  background-color: #0037b2;
 }
 
 ul  {
@@ -23,5 +27,5 @@ ul  {
   }
 
  .nav-link {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
   }

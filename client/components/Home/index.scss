@@ -1,8 +1,28 @@
 ul {
-  color: black;
+  color: rgb(241, 0, 0);
   font-size: 14px;
 }
 
-h1.home-container {
-  color: rgb(212, 32, 32);
+.centered-container {
+  color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.267);
+}
+
+.home-container {
+  text-align: center;
+  border: auto;
+  padding: 200px;
+  transform: translateY(-50%);
+  top: 50%;
+  position: relative;
+    /* Add background image */
+      background-image: url("../../public/img/flightline.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #fff;
 }

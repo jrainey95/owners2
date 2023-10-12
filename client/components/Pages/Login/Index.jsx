@@ -1,14 +1,12 @@
-// see SignupForm.js for comments
-
+import "./index.scss";
 import { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../../utils/mutations";
-
 import auth from "../../../utils/auth";
 
 const LoginPage = () => {
+  const [backgroundColor, setBackgroundColor] = useState("#3332");
   const [userFormData, setUserFormData] = useState({
     email: "",
     password: "",
@@ -58,9 +56,27 @@ const LoginPage = () => {
     });
   };
 
+  useEffect(() => {
+    const colors = ["#3334", "#3335", "#3336"];
+    let currentIndex = 0;
+
+    const updateBackgroundColor = () => {
+      setBackgroundColor(colors[currentIndex]);
+      currentIndex = (currentIndex + 1) % colors.length;
+    };
+
+    const interval = setInterval(updateBackgroundColor, 5000);
+
+    // Clear the interval when the component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <>
-      <section className="loginFormPage">
+    <div className="login-container" style={{ backgroundColor }}>
+      <div className="login-box">
+        <h2>Login</h2>
         <Form
           id="loginForm"
           noValidate
@@ -76,45 +92,37 @@ const LoginPage = () => {
             Something went wrong with your login credentials!
           </Alert>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="email">Email</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your username or email "
+              placeholder="Email"
               name="email"
               onChange={handleInputChange}
               value={userFormData.email}
               required
             />
-            <Form.Control.Feedback type="invalid">
-              Email is required!
-            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="password">Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Your password"
+              placeholder="Password"
               name="password"
               onChange={handleInputChange}
               value={userFormData.password}
               required
             />
-            <Form.Control.Feedback type="invalid">
-              Password is required!
-            </Form.Control.Feedback>
           </Form.Group>
           <Button
             id="loginBtn"
             disabled={!(userFormData.email && userFormData.password)}
             type="submit"
-            variant="success"
           >
             Submit
           </Button>
         </Form>
-      </section>
-    </>
+      </div>
+    </div>
   );
 };
+
 export default LoginPage;
