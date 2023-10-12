@@ -6,7 +6,7 @@ export const QUERY_ME = gql`
       _id
       username
       email
-      horses {
+      savedHorses {
         horses
         age
         gender

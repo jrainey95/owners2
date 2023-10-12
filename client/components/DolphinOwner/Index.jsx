@@ -18,7 +18,7 @@ function DolphinOwner() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/fetchData");
+        const response = await fetch("http://localhost:3002/api/fetchData");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

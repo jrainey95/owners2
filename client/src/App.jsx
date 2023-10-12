@@ -10,34 +10,40 @@ import LoginPage from '../components/Pages/Login/Index';
 import UserSignup from '../components/Pages/Signup/Index';
 
 
+import { ApolloClient, ApolloProvider } from "@apollo/client";
+
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" activeclassname="active" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/owners" activeclassname="active" element={<Owners />} />
-          <Route
-            path="/owners/godolphin"
-            activeclassname="active"
-            element={<DolphinOwners />}
-          />
-          <Route
-            path="/login"
-            activeclassname="active"
-            element={<LoginPage />}
-          />
-        <Route
-            path="/signup"
-            activeclassname="active"
-            element={<UserSignup/>}
-          />
-        </Route>
-        
-      
-      </Routes>
-    </>
+    <ApolloProvider client={ApolloClient}>
+      <>
+        <Routes>
+          <Route path="/" activeclassname="active" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route
+              path="/owners"
+              activeclassname="active"
+              element={<Owners />}
+            />
+            <Route
+              path="/owners/godolphin"
+              activeclassname="active"
+              element={<DolphinOwners />}
+            />
+            <Route
+              path="/login"
+              activeclassname="active"
+              element={<LoginPage />}
+            />
+            <Route
+              path="/signup"
+              activeclassname="active"
+              element={<UserSignup />}
+            />
+          </Route>
+        </Routes>
+      </>
+    </ApolloProvider>
   );
 }
 
-export default App
+export default App;
