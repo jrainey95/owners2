@@ -1,74 +1,148 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
+
+import { useMutation } from "@apollo/client";
+import { ADD_USER } from "../../../utils/mutations";
+
+ // Adjust the import path accordingly
+import auth from "../../../utils/auth";
+
 
 const UserSignup = () => {
-  const [formData, setFormData] = useState({
+  // set initial form state
+  const [userFormData, setUserFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
+  // set state for form validation
+  const [validated] = useState(false);
+  // set state for alert
+  const [showAlert, setShowAlert] = useState(false);
 
-  const { username, email, password } = formData;
+  const [addUser, { error }] = useMutation(ADD_USER);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    try {
+      const { data } = await addUser({
+        variables: { ...userFormData },
+      });
+      console.log(data);
+      auth.login(data.addUser.token);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setUserFormData({
+      username: "",
+      email: "",
+      password: "",
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your signup logic here (e.g., make an API request to register the user).
-    console.log("Signup form submitted with data:", formData);
-  };
-
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit">Sign Up</button>
-          <div>
-            {/* Wrap the "Signup" button in a Link component */}
-            <Link to="/login">
-              <button>Login</button>
-            </Link>
-          </div>
-        </div>
-      </form>
-    </div>
+    <>
+      <section className="signupFormPage">
+        {/* This is needed for the validation functionality above */}
+        <Form
+          id="signupForm"
+          noValidate
+          validated={validated}
+          onSubmit={handleFormSubmit}
+        >
+          {/* show alert if server response is bad */}
+          <Alert
+            dismissible
+            onClose={() => setShowAlert(false)}
+            show={showAlert}
+            variant="danger"
+          >
+            Something went wrong with your signup!
+          </Alert>
+
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="username">Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your username"
+              name="username"
+              onChange={handleInputChange}
+              value={userFormData.username}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Username is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Your email address"
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Email is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Your password"
+              name="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Password is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button
+            id="signupBtn"
+            disabled={
+              !(
+                userFormData.username &&
+                userFormData.email &&
+                userFormData.password
+              )
+            }
+            type="submit"
+            variant="success"
+          >
+            Submit
+          </Button>
+        </Form>
+      </section>
+    </>
   );
 };
 

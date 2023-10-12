@@ -1,90 +1,120 @@
-// LoginPage.js
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+// see SignupForm.js for comments
 
-// import auth from "../../../utils/auth";
+import { useState, useEffect } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
+
+import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../../utils/mutations";
 
+import auth from "../../../utils/auth";
+
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(false);
+  const [userFormData, setUserFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const [login, { error }] = useMutation(LOGIN_USER);
 
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error]);
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value });
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleLogin = async () => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     try {
       const { data } = await login({
-        variables: {
-          email: username, // Assuming the "username" field can be an email
-          password: password,
-        },
+        variables: { ...userFormData },
       });
 
-      if (data.login.token) {
-        // Handle successful login, e.g., store the token or redirect to a protected route.
-        console.log('Login successful');
-      } else {
-        // Handle login failure.
-        console.log('Login failed');
-      }
-    } catch (error) {
-      // Handle network or server error.
-      console.error('Error:', error);
+      console.log(data);
+      auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
     }
-  };
 
-  const handleForgotEmail = () => {
-    // Implement the forgot email functionality here.
-    console.log("Forgot email clicked");
+    // clear form values
+    setUserFormData({
+      email: "",
+      password: "",
+    });
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <div>
-        <label htmlFor="username">Username/Email:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={handleUsernameChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-      </div>
-      
-      <div>
-        <button onClick={handleLogin}>Submit</button>
-      </div>
-      <div>
-        <button onClick={handleForgotEmail}>Forgot Email</button>
-      </div>
-      <div>
-        {/* Wrap the "Signup" button in a Link component */}
-        <Link to="/signup">
-          <button>Signup</button>
-        </Link>
-      </div>
-    </div>
+    <>
+      <section className="loginFormPage">
+        <Form
+          id="loginForm"
+          noValidate
+          validated={validated}
+          onSubmit={handleFormSubmit}
+        >
+          <Alert
+            dismissible
+            onClose={() => setShowAlert(false)}
+            show={showAlert}
+            variant="danger"
+          >
+            Something went wrong with your login credentials!
+          </Alert>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="email">Email</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your username or email "
+              name="email"
+              onChange={handleInputChange}
+              value={userFormData.email}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Email is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Your password"
+              name="password"
+              onChange={handleInputChange}
+              value={userFormData.password}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Password is required!
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button
+            id="loginBtn"
+            disabled={!(userFormData.email && userFormData.password)}
+            type="submit"
+            variant="success"
+          >
+            Submit
+          </Button>
+        </Form>
+      </section>
+    </>
   );
 };
-
 export default LoginPage;
