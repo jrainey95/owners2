@@ -1,0 +1,36 @@
+/* UserSignup.module.css */
+// .signupFormPage {
+//   color: rgb(241, 0, 0);
+//   font-size: 14px;
+// }
+
+.signupFormPage {
+  color: rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.267);
+}
+
+
+.login-box {
+  background-color: #8f8c8c;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  text-align: center;
+  width: 300px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+div.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #ffffff;
+}

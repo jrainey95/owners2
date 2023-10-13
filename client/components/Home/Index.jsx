@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import "./index.scss";
 
 const Home = () => {
   const [selectedOwner, setSelectedOwner] = useState("");
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   const ownerOptions = ["Godolphin", "Coolmore", "Darley"];
 
@@ -14,14 +14,17 @@ const Home = () => {
 
   const handleButtonClick = () => {
     if (selectedOwner === "Godolphin") {
+      // Navigate to the "/owners/godolphin" route using navigate
       navigate("/owners/godolphin");
+      // Display an alert
+      // alert('You selected "Godolphin" and navigated to /owners/godolphin.');
     } else {
       alert('Please select "Godolphin" from the dropdown.');
     }
   };
 
   return (
-    <div className="centered-container">
+    <>
       <div className="home-container">
         <h1>Owners List</h1>
         <select value={selectedOwner} onChange={handleOwnerChange}>
@@ -35,7 +38,12 @@ const Home = () => {
         <button onClick={handleButtonClick}>Submit</button>
         {selectedOwner && <p>You selected: {selectedOwner}</p>}
       </div>
-    </div>
+      <body>
+        <div>
+          
+        </div>
+      </body>
+    </>
   );
 };
 

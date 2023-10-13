@@ -11,8 +11,13 @@ ul {
   min-height: 100vh;
   background-color: rgba(255, 255, 255, 0.267);
 }
+h1.owner-tracker {
+  color:#0037b2;
+  font-weight: 700;
+  font-size: 50px;
+}
 
-.home-container {
+.centered-container {
   text-align: center;
   border: auto;
   padding: 200px;
@@ -20,9 +25,9 @@ ul {
   top: 50%;
   position: relative;
     /* Add background image */
-      background-image: url("../../public/img/flightline.jpg");
+      // background-image: url("../../public/img/horse.webp");
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center;
-      color: #fff;
+      background-position: right;
+      color: #d30000;
 }

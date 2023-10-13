@@ -7,12 +7,16 @@
 }
 
 .login-box {
-  background-color: #8f8c8c;
+  background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   text-align: center;
   width: 300px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .login-box h2 {
@@ -44,4 +48,11 @@
 .login-box Form .alert {
   margin-top: 20px;
   border-radius: 5px;
+}
+div.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #ffffff;
 }

@@ -74,7 +74,7 @@ const LoginPage = () => {
   }, []);
 
   return (
-    <div className="login-container" style={{ backgroundColor }}>
+    <div className="login-container">
       <div className="login-box">
         <h2>Login</h2>
         <Form
