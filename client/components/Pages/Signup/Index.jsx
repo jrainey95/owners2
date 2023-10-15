@@ -10,6 +10,7 @@ const UserSignup = () => {
   const [userFormData, setUserFormData] = useState({
     username: "",
     email: "",
+    phoneNumber: "",
     password: "",
   });
 
@@ -57,6 +58,7 @@ const UserSignup = () => {
     setUserFormData({
       username: "",
       email: "",
+      phoneNumber: "",
       password: "",
     });
   };
@@ -80,7 +82,8 @@ const UserSignup = () => {
                 show={showAlert}
                 variant="danger"
               >
-                Something went wrong with your signup!
+                Something went wrong with your signup! Phone number must have
+                exactly 10 characters.
               </Alert>
 
               <Form.Group className="mb-3">
@@ -114,6 +117,21 @@ const UserSignup = () => {
               </Form.Group>
 
               <Form.Group className="mb-3">
+                <Form.Label htmlFor="phoneNumber"></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Phone number"
+                  name="phoneNumber"
+                  onChange={handleInputChange}
+                  value={userFormData.phoneNumber}
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  Phone Number is required!
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
                 <Form.Label htmlFor="password"></Form.Label>
                 <Form.Control
                   type="password"
@@ -133,6 +151,7 @@ const UserSignup = () => {
                   !(
                     userFormData.username &&
                     userFormData.email &&
+                    userFormData.phoneNumber &&
                     userFormData.password
                   )
                 }
