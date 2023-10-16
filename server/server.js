@@ -1,9 +1,14 @@
 const express = require("express");
 const path = require("path");
 // Import the ApolloServer class
+const axios = require("axios");
+const cors = require("cors");
+const cheerio = require("cheerio");
+const router = express.Router();
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
 const { authMiddleware } = require("./utils/auth");
+const Horse = require("./models/Horse");
 
 // Import the two parts of a GraphQL schema
 const { typeDefs, resolvers } = require("./schemas");
@@ -16,6 +21,90 @@ const server = new ApolloServer({
 });
 
 const app = express();
+
+app.use(cors());
+
+app.get("/api/fetchHorses", async (req, res) => {
+  try {
+    const horseResponse = await axios.get(
+      "https://www.godolphin.com/horses/in-training"
+    );
+    const html2 = await horseResponse.data;
+
+    const $$ = cheerio.load(html2);
+
+    // Extract the content of the specific div with the given ID
+    const horseContent = $$(".view-content").html();
+
+    if (horseContent) {
+      // Send the content of the specific div as the response
+      // res.send(horseContent);
+      res.send(horseContent);
+    } else {
+      res.status(404).json({ error: "Horse content not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching horse data:", error);
+    res.status(500).json({ error: "Unable to fetch horse data" });
+  }
+});
+
+
+
+
+app.get("/api/fetchAndSaveHorses", async (req, res) => {
+  try {
+    // Step 1: Fetch horse data from a website
+    const horseResponse = await axios.get(
+      "https://www.godolphin.com/horses/in-training"
+    );
+    const html = horseResponse.data;
+
+    // Step 2: Load the HTML content using Cheerio
+    const $ = cheerio.load(html);
+
+    // Step 3: Extract and structure the horse data
+    const horses = [];
+    $(".views-content").each((index, element) => {
+      const name = $(element).find("a").text();
+      const age = parseInt(
+        $(element).find(".views-field-field-horse-deceased").text()
+      );
+      const gender = $(element).find(".views-field-field-horse-gender").text();
+      const sire = $(element).find(".views-field-field-horse-sire").text();
+      const dam = $(element).find(".views-field-field-horse-dam").text();
+      const trainer = $(element).find(".views-field-field-trainer").text();
+      const country = $(element).find(".views-field-field-country").text();
+
+      horses.push({
+        name,
+        age,
+        gender,
+        sire,
+        dam,
+        trainer,
+        country,
+      });
+    });
+
+    // Step 4: Save the horse data to MongoDB
+    const savedHorses = await Horse.create(horses);
+
+    // Step 5: Respond with a success message and the saved data
+    res
+      .status(200)
+      .json({ message: "Horse data saved to MongoDB", savedHorses });
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error("Error fetching and saving horse data:", error);
+    res.status(500).json({ error: "Unable to fetch and save horse data" });
+  }
+});
+
+
+
+
+module.exports = router;
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {

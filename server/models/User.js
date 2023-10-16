@@ -17,6 +17,19 @@ const userSchema = new Schema(
       unique: true,
       match: [/.+@.+\..+/, "Must use a valid email address"],
     },
+    phoneNumber: {
+      type: String,
+      default: "",
+      validate: {
+        validator: function (phoneNumber) {
+          // Check if the phone number has exactly 1 character
+          return phoneNumber.length === 10;
+        },
+        message: "Phone number must have exactly 1 character",
+      },
+      required: true,
+      unique: true,
+    },
     password: {
       type: String,
       required: true,

@@ -3,6 +3,7 @@ const typeDefs = `
     _id: ID!
     username: String!
     email: String
+    phoneNumber: String
     savedHorses: [Horse]
   }
 
@@ -38,7 +39,7 @@ const typeDefs = `
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, phoneNumber: String, password: String!): Auth
     saveHorse(HorseData: HorseInput!): User
     
     removeHorse(HorseId: ID!): User
