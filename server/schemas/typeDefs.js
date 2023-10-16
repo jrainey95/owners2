@@ -10,7 +10,7 @@ const typeDefs = `
   type Horse {
     horseId: ID!
     horseName: String!
-    age: String!
+    age: Int!
     gender: String!
     sire: String
     dam: String
@@ -25,7 +25,7 @@ const typeDefs = `
 
   input HorseInput {
     horseName: String!
-    age: String!
+    age: Int!
     gender: String!
     sire: String
     dam: String

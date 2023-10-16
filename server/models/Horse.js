@@ -11,7 +11,7 @@ const horseSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ["Colt", "Filly", "Gelding", "Horse", "Mare", "mare"],
+    enum: ["Colt", "Filly", "Gelding", "Horse", "Mare"],
     required: true,
   },
   sire: {

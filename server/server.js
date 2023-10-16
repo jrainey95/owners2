@@ -24,30 +24,30 @@ const app = express();
 
 app.use(cors());
 
-// app.get("/api/fetchHorses", async (req, res) => {
-//   try {
-//     const horseResponse = await axios.get(
-//       "https://www.godolphin.com/horses/in-training"
-//     );
-//     const html2 = await horseResponse.data;
+app.get("/api/fetchHorses", async (req, res) => {
+  try {
+    const horseResponse = await axios.get(
+      "https://www.godolphin.com/horses/in-training"
+    );
+    const html2 = await horseResponse.data;
 
-//     const $$ = cheerio.load(html2);
+    const $$ = cheerio.load(html2);
 
-//     // Extract the content of the specific div with the given ID
-//     const horseContent = $$(".view-content").html();
+    // Extract the content of the specific div with the given ID
+    const horseContent = $$(".view-content").html();
 
-//     if (horseContent) {
-//       // Send the content of the specific div as the response
-//       // res.send(horseContent);
-//       res.send(horseContent);
-//     } else {
-//       res.status(404).json({ error: "Horse content not found" });
-//     }
-//   } catch (error) {
-//     console.error("Error fetching horse data:", error);
-//     res.status(500).json({ error: "Unable to fetch horse data" });
-//   }
-// });
+    if (horseContent) {
+      // Send the content of the specific div as the response
+      // res.send(horseContent);
+      res.send(horseContent);
+    } else {
+      res.status(404).json({ error: "Horse content not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching horse data:", error);
+    res.status(500).json({ error: "Unable to fetch horse data" });
+  }
+});
 
 
 
@@ -65,11 +65,11 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
 
     // Step 3: Extract and structure the horse data
     const horses = [];
-    $(".view-content").each((index, element) => {
-      // Customize these fields based on the structure of the scraped data
+    $(".views-content").each((index, element) => {
       const name = $(element).find("a").text();
-      // const age = $(element).find(".views-field-field-horse-deceased").text();
-    
+      const age = parseInt(
+        $(element).find(".views-field-field-horse-deceased").text()
+      );
       const gender = $(element).find(".views-field-field-horse-gender").text();
       const sire = $(element).find(".views-field-field-horse-sire").text();
       const dam = $(element).find(".views-field-field-horse-dam").text();
@@ -78,7 +78,7 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
 
       horses.push({
         name,
-        // age,
+        age,
         gender,
         sire,
         dam,
@@ -100,6 +100,9 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
     res.status(500).json({ error: "Unable to fetch and save horse data" });
   }
 });
+
+
+
 
 module.exports = router;
 
