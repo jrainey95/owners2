@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const horseSchema = new mongoose.Schema({
-  horses: {
+  name: {
     type: String,
     required: true,
   },
@@ -11,7 +11,7 @@ const horseSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ["Colt", "Filly", "Gelding", "Horse"], // Assuming these are the possible values
+    enum: ["Colt", "Filly", "Gelding", "Horse", "Mare", "mare"],
     required: true,
   },
   sire: {
