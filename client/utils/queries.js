@@ -8,7 +8,7 @@ export const QUERY_ME = gql`
       email
       phoneNumber
       savedHorses {
-        horses
+        name
         age
         gender
         dam

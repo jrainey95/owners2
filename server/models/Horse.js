@@ -6,13 +6,12 @@ const horseSchema = new mongoose.Schema({
     required: true,
   },
   age: {
-    type: Number,
-    required: true,
+    type: String,
+    
   },
   gender: {
     type: String,
-    enum: ["Colt", "Filly", "Gelding", "Horse", "Mare"],
-    required: true,
+    
   },
   sire: {
     type: String,
