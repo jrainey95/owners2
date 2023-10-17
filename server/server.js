@@ -29,19 +29,23 @@ app.get("/api/fetchHorses", async (req, res) => {
     const horseResponse = await axios.get(
       "https://www.godolphin.com/horses/in-training"
     );
-    const html2 = await horseResponse.data;
+    const html = await horseResponse.data;
 
-    const $$ = cheerio.load(html2);
+    const $ = cheerio.load(html);
 
-    // Extract the content of the specific div with the given ID
-    const horseContent = $$(".view-content").html();
+    // Select the main content element
+    const mainContent = $(".main-content");
 
-    if (horseContent) {
-      // Send the content of the specific div as the response
-      // res.send(horseContent);
-      res.send(horseContent);
+    // Select all the <a> elements within the main content
+    const aElements = mainContent.find("a");
+
+    if (aElements.length > 0) {
+      // Send the HTML of the selected <a> elements as the response
+      res.send(aElements.html());
     } else {
-      res.status(404).json({ error: "Horse content not found" });
+      res
+        .status(404)
+        .json({ error: "No <a> elements found within the main content" });
     }
   } catch (error) {
     console.error("Error fetching horse data:", error);
@@ -52,6 +56,87 @@ app.get("/api/fetchHorses", async (req, res) => {
 
 
 
+// the fetch  that works// 
+
+
+// app.get("/api/fetchHorses", async (req, res) => {
+//   try {
+//     const horseResponse = await axios.get(
+//       "https://www.godolphin.com/horses/in-training"
+//     );
+//     const html2 = await horseResponse.data;
+
+//     const $$ = cheerio.load(html2);
+
+//     // Extract the content of the specific div with the given ID
+//     const horseContent = $$(".main-content").html();
+
+//     if (horseContent) {
+//       // Send the content of the specific div as the response
+//       // res.send(horseContent);
+//       res.send(html2);
+//     } else {
+//       res.status(404).json({ error: "Horse content not found" });
+//     }
+//   } catch (error) {
+//     console.error("Error fetching horse data:", error);
+//     res.status(500).json({ error: "Unable to fetch horse data" });
+//   }
+// });
+
+
+
+
+
+// Sample that works// 
+
+// app.get("/api/fetchHorses", async (req, res) => {
+//   try {
+//     // Step 1: Fetch horse data from a website
+//     const horseResponse = await axios.get(
+//       "https://www.godolphin.com/horses/in-training"
+//     );
+//     const html2 = await horseResponse.data;
+
+//     // Step 2: Load the HTML content using Cheerio
+//     const $$ = cheerio.load(html2);
+
+//     // Step 3: Extract the content of the specific div with the given ID
+//     const horseContent = $$(".view-content").html();
+
+//     if (horseContent) {
+//       // Step 4: If horse content is found, create a new Horse document
+//       const newHorse = new Horse({
+//         // Customize these fields based on your scraped data
+//         horseName: "Sample Horse Name",
+//         age: 3,
+//         gender: "Colt",
+//         sire: "Sample Sire",
+//         dam: "Sample Dam",
+//         trainer: "Sample Trainer",
+//         country: "Sample Country",
+//       });
+
+//       // Step 5: Save the horse data to MongoDB
+//       await newHorse.save();
+
+//       // Step 6: Respond with a success message
+//       res.status(200).json({ message: "Horse data saved to MongoDB" });
+//     } else {
+//       // If horse content is not found, respond with an error
+//       res.status(404).json({ error: "Horse content not found" });
+//     }
+//   } catch (error) {
+//     // Handle any errors that occur during the process
+//     console.error("Error fetching and saving horse data:", error);
+//     res.status(500).json({ error: "Unable to fetch and save horse data" });
+//   }
+// });
+
+
+
+
+//working on it 
 app.get("/api/fetchAndSaveHorses", async (req, res) => {
   try {
     // Step 1: Fetch horse data from a website
@@ -65,30 +150,50 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
 
     // Step 3: Extract and structure the horse data
     const horses = [];
-    $(".views-content").each((index, element) => {
-      const name = $(element).find("a").text();
-      const age = parseInt(
-        $(element).find(".views-field-field-horse-deceased").text()
-      );
-      const gender = $(element).find(".views-field-field-horse-gender").text();
-      const sire = $(element).find(".views-field-field-horse-sire").text();
-      const dam = $(element).find(".views-field-field-horse-dam").text();
-      const trainer = $(element).find(".views-field-field-trainer").text();
-      const country = $(element).find(".views-field-field-country").text();
+    $(".even, .odd").each((index, element) => {
+      const $horseInfo = $(element);
 
-      horses.push({
-        name,
-        age,
-        gender,
-        sire,
-        dam,
-        trainer,
-        country,
-      });
+      const name = $horseInfo.find(".views-field-title a").text().trim();
+      const age = $horseInfo
+        .find(".views-field-field-horse-deceased")
+        .text()
+        .trim();
+      const gender = $horseInfo
+        .find(".views-field-field-horse-gender")
+        .text()
+        .trim();
+      const sire = $horseInfo
+        .find(".views-field-field-horse-sire")
+        .text()
+        .trim();
+      const dam = $horseInfo.find(".views-field-field-horse-dam").text().trim();
+      const trainer = $horseInfo
+        .find(".views-field-field-trainer")
+        .text()
+        .trim();
+      const country = $horseInfo
+        .find(".views-field-field-country")
+        .text()
+        .trim();
+
+      if (name) {
+        // Ensure that the name is not empty
+        horses.push({
+          name,
+          age,
+          gender,
+          sire,
+          dam,
+          trainer,
+          country,
+        });
+      }
     });
 
     // Step 4: Save the horse data to MongoDB
-    const savedHorses = await Horse.create(horses);
+    const savedHorses = await Promise.all(
+      horses.map((horse) => Horse.create(horse))
+    );
 
     // Step 5: Respond with a success message and the saved data
     res
@@ -138,3 +243,5 @@ const startApolloServer = async () => {
 
 // Call the async function to start the server
 startApolloServer();
+
+
