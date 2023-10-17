@@ -296,8 +296,18 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
     const horses = [];
     $(".view-content").each((index, element) => {
       const name = $(element).find("a").text();
-      const age = $(element).find(".views-field-field-horse-deceased").text();
-      const gender = $(element).find(".views-field-field-horse-gender").text();
+      const age = $(element)
+        .find(".views-field-field-horse-deceased")
+        .text()
+        .trim(); // Trim whitespace
+
+   
+
+      const gender = $(element)
+        .find(".views-field-field-horse-gender")
+        .text()
+        .trim(); // Trim whitespace
+
       const sire = $(element).find(".views-field-field-horse-sire").text();
       const dam = $(element).find(".views-field-field-horse-dam").text();
       const trainer = $(element).find(".views-field-field-trainer").text();
