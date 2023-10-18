@@ -206,7 +206,21 @@ app.get("/api/fetchAndSaveHorses", async (req, res) => {
   }
 });
 
+router.get("/api/horses/:horseName", async (req, res) => {
+  try {
+    const horseName = req.params.horseName;
+    const horse = await Horse.findOne({ name: horseName });
 
+    if (!horse) {
+      return res.status(404).json({ error: "Horse not found" });
+    }
+
+    res.json(horse);
+  } catch (error) {
+    console.error("Error fetching horse data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 module.exports = router;

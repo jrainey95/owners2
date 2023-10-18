@@ -199,7 +199,7 @@ function DolphinOwner() {
             <tr key={index}>
               <td>{horse.racecourse}</td>
               <td className="name">
-                <Link to={`owners/godolphin/${horse.horseName}`}>
+                <Link to={`/owners/godolphin/${horse.horseName}`}>
                   {horse.horseName}
                 </Link>
               </td>

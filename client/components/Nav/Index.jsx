@@ -9,8 +9,6 @@ export default function Navbar() {
   return (
     <nav>
       <div>
-      
-
         <div className="navbar-container">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -23,16 +21,12 @@ export default function Navbar() {
                 GODOLPHIN
               </Link>
             </li>
-            {/* <li className="nav-item">
-              <Link to="/aboutus" className="nav-link">
-                ABOUT US
+            <li className="nav-item">
+              <Link to="/owners/godolphin/horses" className="nav-link">
+                GODOLPHIN HORSES
               </Link>
-            </li> */}
-            {/* <li className="nav-item">
-              <Link to="/owners" className="nav-link">
-                OWNERS
-              </Link>
-            </li> */}
+            </li>
+
             <li className="nav-item">
               <Link to="/login" className="nav-link">
                 LOGIN

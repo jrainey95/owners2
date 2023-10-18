@@ -1,41 +1,145 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { QUERY_ME } from "../../utils/mutations"; // Import the QUERY_ME query
+// import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 
-const HorseProfile = () => {
-  const { loading, error, data } = useQuery(QUERY_ME);
+// function HorseProfile() {
+//   const { horseName } = useParams();
+//   const [horseData, setHorseData] = useState(null);
 
-  if (loading) {
-    return <p>Loading...</p>;
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch(`/api/horses/${horseName}`);
+//         if (!response.ok) {
+//           throw new Error("Network response was not ok");
+//         }
+//         const htmlContent = await response.text(); // Use text() to fetch HTML content
+
+//         // Set the HTML content directly in the state
+//         setHorseData(htmlContent);
+//       } catch (error) {
+//         console.error("Error fetching horse data:", error);
+//       }
+//     };
+
+//     fetchData();
+//   }, [horseName]);
+
+//   if (!horseData) {
+//     return <div>Loading...</div>;
+//   }
+
+//   return (
+//     <div>
+//       <h2>{horseName} Profile</h2>
+//       <h2>{horseData.age} Profile</h2>
+//     </div>
+//   );
+// }
+
+// export default HorseProfile;
+
+
+// import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
+
+// function HorseProfile() {
+//   const { horseName } = useParams();
+//   const [horseData, setHorseData] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch(`/api/horses/${horseName}`);
+//         if (!response.ok) {
+//           throw new Error("Network response was not ok");
+//         }
+//         const htmlContent = await response.text(); // Use text() to fetch HTML content
+
+//         // Set the HTML content directly in the state
+//         setHorseData(htmlContent);
+//       } catch (error) {
+//         console.error("Error fetching horse data:", error);
+//       }
+//     };
+
+//     fetchData();
+//   }, [horseName]);
+
+//   if (!horseData) {
+//     return <div>Loading...</div>;
+//   }
+
+
+
+
+//   return (
+//     <div>
+//       <h2>{horseData.name} Profile</h2>
+//       <div>
+//         <p>Age: {horseData.age}</p>
+//         <p>Gender: {horseData.gender}</p>
+//         <p>Sire: {horseData.sire}</p>
+//         <p>Dam: {horseData.dam}</p>
+//         <p>Trainer: {horseData.trainer}</p>
+//         <p>Country: {horseData.country}</p>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default HorseProfile;
+
+
+
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+function HorseProfile() {
+  const { horseName } = useParams();
+  const [horseData, setHorseData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/horses/${horseName}`);
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok (status: ${response.status})`
+          );
+        }
+        const data = await response.json();
+
+        // Check if the response is valid JSON
+        if (typeof data !== "object") {
+          throw new Error(`Invalid JSON response: ${JSON.stringify(data)}`);
+        }
+
+        setHorseData(data);
+      } catch (error) {
+        console.error("Error fetching horse data:", error);
+      }
+    };
+
+    fetchData();
+  }, [horseName]);
+
+  if (!horseData) {
+    return <div>Loading...</div>;
   }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
-
-  const user = data.me;
 
   return (
     <div>
-      <h2>User Profile</h2>
-      <p>ID: {user._id}</p>
-      <p>Username: {user.username}</p>
-      <p>Email: {user.email}</p>
-      <h3>Horses:</h3>
-      <ul>
-        {user.horses.map((horse) => (
-          <li key={horse._id}>
-            <p>Name: {horse.name}</p>
-            <p>Age: {horse.age}</p>
-            <p>Gender: {horse.gender}</p>
-            <p>Dam: {horse.dam}</p>
-            <p>Trainer: {horse.trainer}</p>
-            <p>Country: {horse.country}</p>
-          </li>
-        ))}
-      </ul>
+      <h2>{horseData.name} Profile</h2>
+      <div>
+        <p>Age: {horseData.age}</p>
+        <p>Gender: {horseData.gender}</p>
+        <p>Sire: {horseData.sire}</p>
+        <p>Dam: {horseData.dam}</p>
+        <p>Trainer: {horseData.trainer}</p>
+        <p>Country: {horseData.country}</p>
+      </div>
     </div>
   );
-};
+}
 
 export default HorseProfile;
