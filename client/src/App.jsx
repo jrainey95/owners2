@@ -15,7 +15,8 @@ import {
   ApolloProvider,
   createHttpLink,
 } from "@apollo/client";
-import HorseProfile from '../components/HorseProfile/Index';
+// import HorseProfile from '../components/HorseProfile/Index';
+import AllDolphinHorses from '../components/AllDolphinHorses/Index';
 
 
 
@@ -68,7 +69,7 @@ function App() {
             <Route
               path="/owners/godolphin/:horseName"
               activeclassname="active"
-              element={<HorseProfile />}
+              element={<AllDolphinHorses />}
             />
             <Route
               path="/login"
