@@ -1,6 +1,45 @@
-/* index.scss */
-.container {
- 
+td.country-td {
+  padding: 10px;
+  color: #d9f3fd;;
+  font-weight: bold;
+  background-color: #2196f3;
+  background-size: 100% 100%;
+
+  .background-color-for-usa {
+      background-color: #004e03;
+      /* Green */
+    }
+}
+
+/* Define background colors for different countries */
+.country-td.background-color-for-australia {
+  background-color: #1eff00;
+  /* Yellow */
+}
+
+.country-td.background-color-for-usa {
+  background-color: #004e03;
+  /* Green */
+}
+
+.background-color-for-uk {
+  background-color: #2196f3;
+  /* Blue */
+}
+
+.country-td.background-color-for-japan {
+  background-color: #e91e63;
+  /* Pink */
+}
+
+.background-color-for-france {
+  background-color: #ff5722;
+  /* Orange */
+}
+
+.default-background-color {
+  background-color: #ffffff;
+  /* Default background color */
 }
 span.trainer {
   font-size: 15px;
@@ -11,6 +50,10 @@ span.trainer {
   font-weight: 700;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+tr.second-row {
+  border-spacing: 50px;
 }
 span.jockey {
   font-size: 15px;
@@ -37,6 +80,20 @@ button.toggle-off {
     justify-content: flex-start;
     display: flex;
 }
+.button-save {
+  background-color: blue;
+  /* Initial background color */
+  color: white;
+  /* Text color */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.button-save:active {
+  background-color: red;
+  /* Background color when button is active (clicked) */
+}
 
 table 
 {width: 100%;
@@ -44,7 +101,9 @@ table
       text-indent: initial;
         border-spacing: 2px solid;
 }
-
+td.gender {
+  max-width: 18px;
+}
 /* Add styles for the time-container and table as needed */
 /* Adjust the race times container */
 .race-times-container {
@@ -118,6 +177,7 @@ table tr th {
 /* Style table rows */
 tr {
   background-color: #fff;
+  
 }
 
 /* Style every other table row */
@@ -125,6 +185,12 @@ tr:nth-child(even) {
   // background-color: #ffffff;
     // background-color: #b3d4fc;;
       background-color: #e6f5fa;
+      margin-bottom: 10px;
+}
+/* Add spacing between table rows */
+tr.horse-row {
+  margin-bottom: 20px;
+  /* Adjust the margin as needed */
 }
 
 /* Style every other table row (odd rows) with a different background color */
@@ -186,6 +252,16 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Define a CSS class to make an image fit within its container */
+#img-fit {
+
+  background-size: cover;
+  /* Set the maximum width to 100% of its container */
+  height: 10px;
+  /* Set the height to auto to maintain the aspect ratio */
+}
+
 
 span.race-name {
       font-size: 15px;

@@ -8,9 +8,11 @@ export const QUERY_ME = gql`
       email
       phoneNumber
       savedHorses {
+        horseId
         name
         age
         gender
+        sire
         dam
         trainer
         country

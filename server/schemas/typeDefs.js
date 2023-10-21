@@ -40,9 +40,9 @@ const typeDefs = `
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, phoneNumber: String, password: String!): Auth
-    saveHorse(HorseData: HorseInput!): User
+    saveHorse(horsesData: HorseInput!): User
     
-    removeHorse(HorseId: ID!): User
+    removeHorse(horsesId: ID!): User
   }
 `;
 

@@ -53,6 +53,20 @@ app.get("/api/fetchHorses", async (req, res) => {
   }
 });
 
+// Server route to send email alerts
+app.post("/api/sendAlert", (req, res) => {
+  const { userId, horse, alertType } = req.body;
+
+  // Fetch the user's email and phone number from your user database
+  // Send email and SMS based on the alertType
+  if (alertType === "email") {
+    sendEmailAlert(userEmail, horse);
+  } else if (alertType === "text") {
+    sendTextAlert(userPhoneNumber, horse);
+  }
+
+  res.json({ message: "Alert sent successfully" });
+});
 
 
 

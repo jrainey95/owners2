@@ -35,14 +35,9 @@ const userSchema = new Schema(
       required: true,
     },
     // Set savedHorses to be an array of data that adheres to the horseSchema
-    savedHorses: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Horse", // This should match the name of the Horse model
-      },
-    ],
-  },
+    savedHorses: [horseSchema],
   // Set this to use virtual below
+  },
   {
     toJSON: {
       virtuals: true,

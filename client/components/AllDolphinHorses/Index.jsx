@@ -7,7 +7,7 @@ function AllDolphinHorses() {
 
   useEffect(() => {
     // Make a GET request to your Express server
-    fetch("http://localhost:3001/api/fetchHorses")
+    fetch("http://localhost:3002/api/fetchHorses")
       .then((response) => response.text())
       .then((htmlContent) => {
         // Update the state with the fetched HTML data

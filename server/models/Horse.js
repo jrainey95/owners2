@@ -1,6 +1,10 @@
-const mongoose = require("mongoose");
+const { Schema } = require('mongoose');
 
-const horseSchema = new mongoose.Schema({
+const horseSchema = new Schema({
+  horseId: {
+    type: String, 
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -27,6 +31,4 @@ const horseSchema = new mongoose.Schema({
   },
 });
 
-const Horse = mongoose.model("Horse", horseSchema);
-
-module.exports = Horse;
+module.exports = horseSchema;

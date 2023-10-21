@@ -14,6 +14,25 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const SAVE_HORSE = gql`
+  mutation saveHorse($horseData: HorseInput!) {
+    saveHorse(horseData: $horseData) {
+      _id
+      username
+      email
+      savedHorse {
+            horseName
+            age
+            gender
+            sire
+            dam
+            trainer
+            country
+      }
+    }
+  }
+`;
+
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $phoneNumber: String!,$password: String!) {
     addUser(username: $username, email: $email, phoneNumber: $phoneNumber, password: $password) {

@@ -67,7 +67,7 @@ function App() {
               element={< />}
             /> */}
             <Route
-              path="/owners/godolphin/:horseName"
+              path="/owners/godolphin/horses"
               activeclassname="active"
               element={<AllDolphinHorses />}
             />
