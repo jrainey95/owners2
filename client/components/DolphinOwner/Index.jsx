@@ -5,10 +5,11 @@ import moment from "moment-timezone";
 import Time from "../Time/Index";
 import { Link } from "react-router-dom";
 import "./index.scss";
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { SAVE_HORSE } from '../../utils/mutations';
 import Auth from "../../utils/auth";
-// import { }
+import { QUERY_ME } from '../../utils/queries'
+// import { };
 
 function DolphinOwner() {
   const [data, setData] = useState("");
@@ -391,9 +392,13 @@ function DolphinOwner() {
                   </button>
                 </td>
               </tr>
-              {/* Display additional details for the horse */}
+            
               <tr className="second-row">
-                <td></td>
+                <td>
+                 
+                  Origin:{" "} 
+                  {horsesAge.find((h) => h.name === horse.horseName)?.country} 
+                </td>
                 <td
                   className="country-td"
                   id="img-fit"
@@ -407,7 +412,7 @@ function DolphinOwner() {
                         ? "url(/img/JAPAN.jpg)" // Set the background image URL
                         : horsesAge.find((h) => h.name === horse.horseName)
                             ?.country === "France"
-                        ? "url(/img/USA.jpg)"
+                        ? "url(/img/france.png)"
                         : horsesAge.find((h) => h.name === horse.horseName)
                             ?.country === "USA"
                         ? "url(/img/USA.jpg)"
@@ -421,8 +426,8 @@ function DolphinOwner() {
                     backgroundSize: "auto",
                   }}
                 >
-                  Born:{" "}
-                  {horsesAge.find((h) => h.name === horse.horseName)?.country}
+                  {/* Origin:{" "} 
+                  {horsesAge.find((h) => h.name === horse.horseName)?.country} */}
                 </td>
 
                 <td colSpan="2">
@@ -461,33 +466,10 @@ function DolphinOwner() {
 
 
 
-
-  // const calculateTimeUntilPost = (actualRaceDay) => {
-  //   const raceTime = moment(actualRaceDay, "YYYY-MM-DD HH:mm:ss");
-  //   const currentTime = moment();
-  //   const duration = moment.duration(raceTime.diff(currentTime));
-
-  //   const days = duration.days();
-  //   const hours = duration.hours();
-  //   const minutes = duration.minutes();
-  //   const seconds = duration.seconds();
-
-  //   if (days < 0) {
-  //     return "Race Over";
-  //   }
-
-  //   if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-  //     return "Race Tonight";
-  //   }
-
-  //   return `${days}d ${hours}hrs ${minutes}mins ${seconds}sec until Post Time`;
-  // };
-
   const startCountdown = () => {
     const countdownInterval = setInterval(() => {
       setCountdown((prevCountdown) => prevCountdown - 1);
 
-      // Reset the countdown to 60 seconds when it reaches 0
       if (countdown === 0) {
         setCountdown(60);
       }
@@ -499,7 +481,7 @@ function DolphinOwner() {
   };
 
   if (isLoading) {
-    // While loading, display a loading spinner or message
+
     return <div className="loading-spinner">Loading...</div>;
   }
 
@@ -522,7 +504,6 @@ function DolphinOwner() {
 
       <div className="time-content">
         <div className="time-container">
-          {/* Render the Time component for different locations */}
         </div>
         <table>
           <thead>

@@ -1,46 +1,15 @@
 td.country-td {
   padding: 10px;
-  color: #d9f3fd;;
+  color: #000000;;
   font-weight: bold;
   background-color: #2196f3;
   background-size: 100% 100%;
-
-  .background-color-for-usa {
-      background-color: #004e03;
-      /* Green */
-    }
 }
 
-/* Define background colors for different countries */
-.country-td.background-color-for-australia {
-  background-color: #1eff00;
-  /* Yellow */
+td.name {
+  font-size: 20px;
 }
 
-.country-td.background-color-for-usa {
-  background-color: #004e03;
-  /* Green */
-}
-
-.background-color-for-uk {
-  background-color: #2196f3;
-  /* Blue */
-}
-
-.country-td.background-color-for-japan {
-  background-color: #e91e63;
-  /* Pink */
-}
-
-.background-color-for-france {
-  background-color: #ff5722;
-  /* Orange */
-}
-
-.default-background-color {
-  background-color: #ffffff;
-  /* Default background color */
-}
 span.trainer {
   font-size: 15px;
   font-family: 'Open Sans', sans-serif;
@@ -54,6 +23,7 @@ span.trainer {
 
 tr.second-row {
   border-spacing: 50px;
+  background-color: white;
 }
 span.jockey {
   font-size: 15px;
@@ -116,13 +86,13 @@ td.gender {
   /* Remove excessive margin */
 }
 
-/* Style the first cell in each row */
-tr td:first-child {
+// /* Style the first cell in each row */
+// tr td:first-child {
  
-  background-color: #d9f3fd;
-  // background-color: #b3d4fc;;
-  // background-color: #f3fbfe;
-}
+//   background-color: #d9f3fd;
+//   // background-color: #b3d4fc;;
+//   // background-color: #f3fbfe;
+// }
 
 /* Style the accordion header */
 .ui-accordion .ui-accordion__header {
@@ -184,12 +154,14 @@ tr {
 tr:nth-child(even) {
   // background-color: #ffffff;
     // background-color: #b3d4fc;;
-      background-color: #e6f5fa;
+      // background-color: #e6f5fa;
       margin-bottom: 10px;
 }
 /* Add spacing between table rows */
 tr.horse-row {
   margin-bottom: 20px;
+  // background-color: #b3d4fc;
+      background-color: #e6f5fa;
   /* Adjust the margin as needed */
 }
 
